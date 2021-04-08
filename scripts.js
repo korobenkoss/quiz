@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadQuestion(){
+    if(questionNumber == questions.length){
+        document.querySelector("#question").innerHTML = 'Results:';
+    }
     document.querySelector("#question").innerHTML = questions[questionNumber].question;
     const options = document.querySelector("#options");
     for(const option of questions[questionNumber].options){
@@ -27,7 +30,16 @@ function loadQuestion(){
     }
     document.querySelectorAll(".option").forEach(option => {
         option.onclick = () => {
-            alert(option.textContent);
+            if(option.textContent == questions[questionNumber].answer){
+                questionNumber++;
+                correct++;
+                document.querySelector('#correct').innerHTML = `${correct} of ${questionNumber}`
+            } else{
+                questionNumber++;
+                document.querySelector('#correct').innerHTML = `${correct} of ${questionNumber}`
+            }
+            options.innerHTML = '';
+            loadQuestion();
         }
     });
 }
